@@ -42,7 +42,7 @@ export default {
   },
   created () {
     Axios.post(`https://api.it120.cc/small4/shop/goods/detail?id=100031`).then(res => {
-      console.log(res)
+      // console.log(res)
       let { basicInfo, category, content, pics, properties } = res.data.data
       this.detailData = {
         basicInfo,

@@ -26,14 +26,34 @@
         <el-button class="kan-btn-active">自己先砍一刀</el-button>
         <el-button class="kan-btn-request">邀请好友砍价</el-button>
       </div>
+
     </div>
 </template>
 
 <script>
+import Axios from 'axios'
 export default {
   data () {
     return {
       currentDate: new Date()
+    }
+  },
+  created () {
+    Axios.post('https://api.it120.cc/small4/shop/goods/kanjia/join?kjid=642&token=a295c26c-c616-4388-9931-3dc86781a7b8').then(res => {
+      console.log(res)
+      let { code } = res.data
+      if (!code && !res.data.data.statusStr) {
+        this.open6()
+      }
+    })
+  },
+  methods: {
+    open6 () {
+      this.$message({
+        showClose: true,
+        message: '恭喜你，砍价发起成功！',
+        type: 'success'
+      })
     }
   }
 }
