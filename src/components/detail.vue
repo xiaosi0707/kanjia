@@ -20,7 +20,7 @@
       </div>
     </el-card>
     <el-tabs v-model="activeName" @tab-click="handleClick">
-      <el-tab-pane label="商品介绍" name="first">商品介绍</el-tab-pane>
+      <el-tab-pane label="商品介绍" name="first" v-html="detailData.content"></el-tab-pane>
       <el-tab-pane label="商品评价" name="second">商品评价</el-tab-pane>
     </el-tabs>
   </div>

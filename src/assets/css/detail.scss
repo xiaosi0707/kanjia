@@ -35,4 +35,30 @@
     width: 50%;
     text-align: center;
   }
+  .el-tabs__content {
+    width: 100%;
+    overflow: hidden;
+    img {
+      width: 100%!important;
+      height: auto!important;
+    }
+    .m-attrList {
+      width: 90%;
+      margin: 0 auto;
+      li {
+        margin-bottom: rem(42);
+        overflow: hidden;
+      }
+    }
+    .name {
+      font-size: rem(36)!important;
+      width: auto!important;
+      margin-bottom: rem(12);
+    }
+    .value {
+      font-size: rem(24);
+      text-align: left;
+    }
+  }
 }
+
