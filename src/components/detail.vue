@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="block">
-      <el-carousel height="150px">
+      <el-carousel>
         <el-carousel-item v-for="item in detailData.pics" :key="item">
           <h3><img :src=" item.pic " alt=""></h3>
         </el-carousel-item>
