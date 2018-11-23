@@ -1,7 +1,8 @@
 .kanjia {
   width: 100%;
-overflow: hidden;
+  overflow: hidden;
   background: -webkit-linear-gradient(top right, #B5A179, #DED1B5);
+  padding-bottom: rem(42);
   .header {
     color: white;
     img {
@@ -48,5 +49,22 @@ overflow: hidden;
       }
 
     }
+  }
+  .price {
+    color: white;
+    font-size: rem(24);
+  }
+  .kanjia-btn {
+    margin-top: rem(36);
+  }
+  .kan-btn-active {
+    background: #B4A078;
+    color: white;
+    border: 1px #B4A078 solid;
+  }
+  .kan-btn-request {
+    background: #CCBC9B;
+    border: 1px #B4A078 solid;
+    color: white;
   }
 }

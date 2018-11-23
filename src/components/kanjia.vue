@@ -5,7 +5,6 @@
         <span>小四</span>
         <p>我发现一件好货，来帮我砍到最低价吧O(∩_∩)O哈哈~</p>
       </div>
-
         <el-col >
           <el-card :body-style="{ padding: '0px' }">
             <img src="https://i3.meishichina.com/attachment/recipe/2018/11/23/2018112315429398985579702111.jpg?x-oss-process=style/c320" class="image">
@@ -20,6 +19,13 @@
             </div>
           </el-card>
         </el-col>
+      <div class="price">
+        当前价 259元，已砍0.00元
+      </div>
+      <div class="kanjia-btn">
+        <el-button class="kan-btn-active">自己先砍一刀</el-button>
+        <el-button class="kan-btn-request">邀请好友砍价</el-button>
+      </div>
     </div>
 </template>
 
