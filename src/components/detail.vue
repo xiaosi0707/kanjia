@@ -24,7 +24,9 @@
       <el-tab-pane label="商品评价" name="second">暂无评价</el-tab-pane>
     </el-tabs>
     <el-row>
-      <el-button type="danger">立即发起砍价</el-button>
+      <el-button type="danger">
+        <router-link to="/kanjia" tag="span">立即发起砍价</router-link>
+      </el-button>
     </el-row>
   </div>
 </template>
@@ -39,7 +41,7 @@ export default {
     }
   },
   created () {
-    Axios.post(`https://api.it120.cc/small4/shop/goods/detail?id=99766`).then(res => {
+    Axios.post(`https://api.it120.cc/small4/shop/goods/detail?id=100031`).then(res => {
       console.log(res)
       let { basicInfo, category, content, pics, properties } = res.data.data
       this.detailData = {
