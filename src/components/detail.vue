@@ -21,8 +21,11 @@
     </el-card>
     <el-tabs v-model="activeName" @tab-click="handleClick">
       <el-tab-pane label="商品介绍" name="first" v-html="detailData.content"></el-tab-pane>
-      <el-tab-pane label="商品评价" name="second">商品评价</el-tab-pane>
+      <el-tab-pane label="商品评价" name="second">暂无评价</el-tab-pane>
     </el-tabs>
+    <el-row>
+      <el-button type="danger">立即发起砍价</el-button>
+    </el-row>
   </div>
 </template>
 
