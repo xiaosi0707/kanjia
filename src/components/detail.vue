@@ -47,6 +47,11 @@ export default {
       this.$router.push({
         path: 'login'
       })
+    } else {
+      next()
+      this.$router.push({
+        path: 'kanjia'
+      })
     }
   },
   created () {

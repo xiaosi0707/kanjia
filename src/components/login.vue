@@ -4,7 +4,7 @@
           登录
         </el-card>
       <div>
-        <el-input placeholder="请输入token" v-model="input3">
+        <el-input placeholder="请输入token" v-model="token">
           <template slot="prepend">token</template>
         </el-input>
         <!--<el-input placeholder="请输入内容" v-model="input3">-->
@@ -19,7 +19,8 @@
 export default {
   data () {
     return {
-      isLoading: false
+      isLoading: false,
+      token: ''
     }
   },
   methods: {
@@ -32,14 +33,15 @@ export default {
     },
     login () {
       this.isLoading = true
+      window.localStorage.setItem('token', this.token)
       setTimeout(() => {
+        if (!window.localStorage.getItem('token')) return
         this.open6()
         setTimeout(() => {
           this.$router.push({
             path: 'kanjia'
           })
         }, 2000)
-
       }, 2000)
     }
   }
