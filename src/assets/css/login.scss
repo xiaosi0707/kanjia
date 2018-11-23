@@ -1,0 +1,23 @@
+.login {
+  .el-card {
+    border: 0;
+    border-radius: 0;
+  }
+  .el-card__body {
+    font-size: rem(32);
+    padding: rem(24);
+    background: #ea625b;
+    border: 0;
+    border-radius: 0;
+    color: white;
+  }
+  .el-input-group {
+    width: 95%;
+    border-radius: 0px;
+    margin-top: rem(60);
+  }
+  .el-button {
+    width: 95%;
+    margin-top: rem(100);
+  }
+}
