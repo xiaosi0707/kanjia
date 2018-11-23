@@ -1,5 +1,52 @@
 .kanjia {
   width: 100%;
-  height: rem(600);
-  background: -webkit-linear-gradient(top right, #B5A179, DED1B5);
+overflow: hidden;
+  background: -webkit-linear-gradient(top right, #B5A179, #DED1B5);
+  .header {
+    color: white;
+    img {
+      width: rem(120);
+      height: rem(120);
+      border-radius: 50%;
+      margin-top: rem(120);
+    }
+    span {
+      display: block;
+      font-size: rem(32);
+      margin: 0 0 rem(27) 0;
+    }
+    p {
+      font-size: rem(24);
+    }
+  }
+  .el-card {
+    background: #F6EDDE;
+    border: 0;
+  }
+  .el-col-24 {
+    width: 90%;
+    float: none;
+    margin: rem(50) auto;
+    font-size: rem(32);
+    text-align: left;
+    .image {
+      width: rem(120);
+      float: left;
+      margin:rem(24) rem(24) 0 rem(24);
+    }
+    p {
+      margin-top: rem(40);
+      font-size: rem(24);
+      i {
+        font-style: normal;
+        color: #BEAD89;
+      }
+      u {
+        text-decoration: none;
+        color: #B2AFAC;
+        float: right;
+      }
+
+    }
+  }
 }
