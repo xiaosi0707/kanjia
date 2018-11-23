@@ -7,6 +7,18 @@
         </el-carousel-item>
       </el-carousel>
     </div>
+    <el-card class="box-card">
+      <div class="text item">
+        {{ detailData.basicInfo.name }}
+      </div>
+      <div class="text item">
+        {{ detailData.basicInfo.characteristic }}
+      </div>
+      <div class="text item">
+        <span><i>底价<b>¥{{ detailData.basicInfo.originalPrice }}</b></i>原价¥{{ detailData.basicInfo.originalPrice }}</span>
+        <span>库存 {{ detailData.basicInfo.stores }}</span>
+      </div>
+    </el-card>
   </div>
 </template>
 
@@ -35,19 +47,6 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-h1, h2 {
-  font-weight: normal;
-}
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-a {
-  color: #42b983;
-}
+<style scoped lang="scss">
+
 </style>
