@@ -1,15 +1,15 @@
 .el-card__body .text {
   text-align: left;
-  font-size: 12px;
+  font-size: rem(24);
   color: rgba(0,0,0,.54);
-  margin: rem(12) 0;
+  margin: rem(15) 0;
 }
 .el-card__body .text:first-child {
   color: rgba(0,0,0,.87);
-  font-size: 16px;
+  font-size: rem(32);
 }
 .el-card__body .text:last-child {
-  font-size: 12px;
+
 
   span {
     color: rgba(0,0,0,.54);
@@ -25,5 +25,14 @@
       float: right
     }
   }
-
+}
+.el-tabs {
+  margin-top: 12px;
+  .el-tabs__nav {
+    float: none;
+  }
+  .el-tabs__item {
+    width: 50%;
+    text-align: center;
+  }
 }
