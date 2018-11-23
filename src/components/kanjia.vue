@@ -52,6 +52,15 @@ export default {
       helpNumber: 0
     }
   },
+  // beforeRouteEnter (to, from, next) {
+  //   console.log(this)
+  //   let token = window.localStorage.getItem('token')
+  //   if (!token) {
+  //     this.$router.push({
+  //       path: 'login'
+  //     })
+  //   }
+  // },
   created () {
     Axios.post('https://api.it120.cc/small4/shop/goods/kanjia/join?kjid=642&token=a295c26c-c616-4388-9931-3dc86781a7b8').then(res => {
       console.log(res)

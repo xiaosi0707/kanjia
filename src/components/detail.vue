@@ -40,9 +40,17 @@ export default {
       activeName: 'first'
     }
   },
+  beforeRouteLeave (to, from, next) {
+    let token = window.localStorage.getItem('token')
+    if (!token) {
+      next()
+      this.$router.push({
+        path: 'login'
+      })
+    }
+  },
   created () {
     Axios.post(`https://api.it120.cc/small4/shop/goods/detail?id=100031`).then(res => {
-      // console.log(res)
       let { basicInfo, category, content, pics, properties } = res.data.data
       this.detailData = {
         basicInfo,
