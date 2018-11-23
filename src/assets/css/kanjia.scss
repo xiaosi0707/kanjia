@@ -68,3 +68,32 @@
     color: white;
   }
 }
+.friend-list {
+  header {
+    font-size: rem(24);
+    color: #B5A179;
+    margin-top: rem(24);
+  }
+  dl {
+    width: 90%;
+    margin: rem(32) auto;
+    font-size: rem(24);
+    text-align: left;
+    img {
+      width: rem(120);
+      height: rem(120);
+      border-radius: 50%;
+      float: left;
+      margin-right: rem(32);
+
+    }
+    dt {
+      margin-top: rem(32);
+      float: left;
+    }
+    dd {
+      float: right;
+      margin-top: rem(42);
+    }
+  }
+}
