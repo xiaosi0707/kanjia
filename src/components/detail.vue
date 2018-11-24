@@ -15,7 +15,7 @@
         {{ detailData.basicInfo.characteristic }}
       </div>
       <div class="text item">
-        <span><i>底价<b>¥{{ detailData.basicInfo.originalPrice }}</b></i>原价¥{{ detailData.basicInfo.originalPrice }}</span>
+        <span><i>底价<b>¥{{ detailData.basicInfo.kanjiaPrice }}</b></i>原价¥{{ detailData.basicInfo.originalPrice }}</span>
         <span>库存 {{ detailData.basicInfo.stores }}</span>
       </div>
     </el-card>
@@ -25,7 +25,7 @@
     </el-tabs>
     <el-row>
       <el-button type="danger">
-        <router-link to="/kanjia" tag="span">立即发起砍价</router-link>
+        <router-link :to="{ path: '/kanjia', query: { originPrice: detailData.basicInfo.originalPrice, floorPrice: detailData.basicInfo.kanjiaPrice }}" tag="span">立即发起砍价</router-link>
       </el-button>
     </el-row>
   </div>
@@ -49,13 +49,14 @@ export default {
       })
     } else {
       next()
-      this.$router.push({
-        path: 'kanjia'
-      })
+      // this.$router.push({
+      //   path: 'kanjia'
+      // })
     }
   },
   created () {
     Axios.post(`https://api.it120.cc/small4/shop/goods/detail?id=100031`).then(res => {
+      console.log(res)
       let { basicInfo, category, content, pics, properties } = res.data.data
       this.detailData = {
         basicInfo,

@@ -13,23 +13,23 @@
               <span>好吃的汉堡</span>
               <div class="bottom clearfix">
                 <p>
-                  <i>底价 ¥79</i>
-                  <u>原价 ¥269</u>
+                  <i>底价 ¥{{ floorPrice }}</i>
+                  <u>原价 ¥{{ originPrice }}</u>
                 </p>
               </div>
             </div>
           </el-card>
         </el-col>
       <div class="price">
-        当前价 259元，已砍0.00元
+        当前价 {{ curPrice }}元，已砍{{ originPrice - curPrice }}元
       </div>
       <div class="kanjia-btn">
-        <el-button class="kan-btn-active" @click="kanOwn">自己先砍一刀</el-button>
+        <el-button class="kan-btn-active" @click="kanOwn">砍一刀</el-button>
         <el-button class="kan-btn-request">邀请好友砍价</el-button>
       </div>
     </div>
   <div class="friend-list">
-    <header>{{ helpNumber }}名好友帮砍</header>
+    <header v-if="helpNumber">{{ helpNumber }}名好友帮砍</header>
     <dl>
       <img src="https://avatars2.githubusercontent.com/u/21288681?s=460&v=4" alt="">
       <dt>
@@ -49,7 +49,10 @@ export default {
   data () {
     return {
       currentDate: new Date(),
-      helpNumber: 0
+      helpNumber: 0,
+      originPrice: '',
+      floorPrice: '',
+      curPrice: ''
     }
   },
   // beforeRouteEnter (to, from, next) {
@@ -62,11 +65,16 @@ export default {
   //   }
   // },
   created () {
-    Axios.post('https://api.it120.cc/small4/shop/goods/kanjia/join?kjid=642&token=a295c26c-c616-4388-9931-3dc86781a7b8').then(res => {
+    console.log(this.$route)
+    let { originPrice, floorPrice } = this.$route.query
+    this.originPrice = originPrice
+    this.floorPrice = floorPrice
+    Axios.post('https://api.it120.cc/small4/shop/goods/kanjia/join?kjid=640&token=d1880bae-39e4-4124-9a5c-8ef2bb0f2110').then(res => {
       console.log(res)
       let { code } = res.data
-      let { helpNumber } = res.data.data
+      let { helpNumber, curPrice } = res.data.data
       this.helpNumber = helpNumber
+      this.curPrice = curPrice
       if (!code && !res.data.data.statusStr) {
         this.open6()
       }
@@ -80,10 +88,27 @@ export default {
         type: 'success'
       })
     },
-    kanOwn () {
-      Axios.post('https://api.it120.cc/small4/shop/goods/kanjia/help?token=a29c96fc-3e47-42f1-8f70-73a2303a96b4&kjid=642&joinerUser=614030').then(res => {
-        console.log(res)
+    open5 () {
+      this.$message({
+        showClose: true,
+        message: '恭喜你，砍价成功！',
+        type: 'success'
       })
+    },
+    kanOwn () {
+      let token = window.localStorage.getItem('token')
+      if (token) {
+        Axios.post('https://api.it120.cc/small4/shop/goods/kanjia/help?token=c005d7cf-38b4-4bc3-a9c1-cf30852de7bb&kjid=640&joinerUser=421657').then(res => {
+          console.log(res)
+          let { code } = res.data
+          if (!code) {
+            this.open5()
+            setTimeout(() => {
+              // window.location.reload()
+            }, 2000)
+          }
+        })
+      }
     }
   }
 }
