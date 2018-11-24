@@ -1,0 +1,16 @@
+.list {
+  .el-row {
+    position: relative;
+    overflow: hidden;
+    .el-col {
+      float: none;
+      margin-bottom: rem(42);
+    }
+    .el-col-offset-2 {
+      margin-left: 0;
+    }
+    .el-col-8 {
+      width: 100%;
+    }
+  }
+}

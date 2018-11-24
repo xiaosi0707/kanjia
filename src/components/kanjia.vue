@@ -55,17 +55,7 @@ export default {
       curPrice: ''
     }
   },
-  // beforeRouteEnter (to, from, next) {
-  //   console.log(this)
-  //   let token = window.localStorage.getItem('token')
-  //   if (!token) {
-  //     this.$router.push({
-  //       path: 'login'
-  //     })
-  //   }
-  // },
   created () {
-    console.log(this.$route)
     let { originPrice, floorPrice } = this.$route.query
     this.originPrice = originPrice
     this.floorPrice = floorPrice

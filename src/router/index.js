@@ -3,13 +3,14 @@ import Router from 'vue-router'
 import Detail from '@/components/detail'
 import Kanjia from '@/components/kanjia'
 import Login from '@/components/login'
+import List from '@/components/list'
 
 Vue.use(Router)
 
 export default new Router({
   routes: [
     {
-      path: '/',
+      path: '/detail',
       name: 'Detail',
       component: Detail
     },
@@ -22,6 +23,11 @@ export default new Router({
       path: '/login',
       name: 'Login',
       component: Login
+    },
+    {
+      path: '/',
+      name: 'List',
+      component: List
     }
   ]
 })
