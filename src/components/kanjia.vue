@@ -58,14 +58,13 @@ export default {
     }
   },
   created () {
-    let { floorPrice, kanJiaInfo, name, pic } = this.$route.query
+    console.log(this.$route.query)
+    let { floorPrice, kanJiaId, name, pic, originalPrice } = this.$route.query
     this.floorPrice = floorPrice
     this.name = name
     this.pic = pic
-    let { id, originalPrice } = kanJiaInfo
     this.originalPrice = originalPrice
-    console.log(kanJiaInfo)
-    Axios.post(`https://api.it120.cc/small4/shop/goods/kanjia/join?kjid=${id}&token=d1880bae-39e4-4124-9a5c-8ef2bb0f2110`).then(res => {
+    Axios.post(`https://api.it120.cc/small4/shop/goods/kanjia/join?kjid=${kanJiaId}&token=d1880bae-39e4-4124-9a5c-8ef2bb0f2110`).then(res => {
       console.log(res)
       let { code } = res.data
       let { helpNumber, curPrice } = res.data.data

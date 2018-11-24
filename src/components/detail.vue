@@ -25,7 +25,7 @@
     </el-tabs>
     <el-row>
       <el-button type="danger">
-        <router-link :to="{ path: '/kanjia', query: { name: detailData.basicInfo.name, floorPrice: detailData.basicInfo.kanjiaPrice, kanJiaInfo: kanJiaInfo, pic: detailData.basicInfo.pic }}" tag="span">立即发起砍价</router-link>
+        <router-link :to="{ path: '/kanjia', query: { name: detailData.basicInfo.name, floorPrice: detailData.basicInfo.kanjiaPrice, kanJiaId: kanJiaId, pic: detailData.basicInfo.pic, originalPrice: detailData.basicInfo.originalPrice }}" tag="span">立即发起砍价</router-link>
       </el-button>
     </el-row>
   </div>
@@ -38,7 +38,8 @@ export default {
     return {
       detailData: {},
       activeName: 'first',
-      kanJiaInfo: ''
+      kanJiaId: '',
+      originalPrice: ''
     }
   },
   beforeRouteLeave (to, from, next) {
@@ -70,11 +71,11 @@ export default {
     // 根据当前商品的goodsId找到当前商品的kanjiaId，然后传递给砍价详情页
     Axios.get('https://api.it120.cc/small4/shop/goods/kanjia/list').then(res => {
       let { result } = res.data.data
-      this.kanJiaInfo = result.filter(item => {
+      this.kanJiaId = result.filter(item => {
         if (item.goodsId === Number(id)) {
-          return item
+          return item.id
         }
-      })[0]
+      })[0].id
     })
   }
 }
