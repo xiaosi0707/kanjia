@@ -24,7 +24,7 @@
         当前价 {{ curPrice }}元，已砍{{ originalPrice - curPrice }}元
       </div>
       <div class="kanjia-btn">
-        <el-button class="kan-btn-active" @click="kanOwn">砍一刀</el-button>
+        <el-button class="kan-btn-active" @click="kanOwn">自己先砍一刀</el-button>
         <el-button class="kan-btn-request">邀请好友砍价</el-button>
       </div>
     </div>
@@ -54,22 +54,25 @@ export default {
       floorPrice: '',
       curPrice: '',
       name: '',
-      pic: ''
+      pic: '',
+      uid: ''
     }
   },
   created () {
     console.log(this.$route.query)
+    let token = window.localStorage.getItem('token')
     let { floorPrice, kanJiaId, name, pic, originalPrice } = this.$route.query
     this.floorPrice = floorPrice
     this.name = name
     this.pic = pic
     this.originalPrice = originalPrice
-    Axios.post(`https://api.it120.cc/small4/shop/goods/kanjia/join?kjid=${kanJiaId}&token=d1880bae-39e4-4124-9a5c-8ef2bb0f2110`).then(res => {
+    Axios.post(`https://api.it120.cc/small4/shop/goods/kanjia/join?kjid=${kanJiaId}&token=${token}`).then(res => {
       console.log(res)
       let { code } = res.data
-      let { helpNumber, curPrice } = res.data.data
+      let { helpNumber, curPrice, uid } = res.data.data
       this.helpNumber = helpNumber
       this.curPrice = curPrice
+      this.uid = uid
       if (!code && !res.data.data.statusStr) {
         this.open6()
       }
@@ -90,12 +93,25 @@ export default {
         type: 'success'
       })
     },
+    open4 () {
+      this.$message({
+        showClose: true,
+        message: '不要太贪心哦，你已砍过了^_^！',
+        type: 'success'
+      })
+    },
     kanOwn () {
       let token = window.localStorage.getItem('token')
+      let { kanJiaId } = this.$route.query
       if (token) {
-        Axios.post('https://api.it120.cc/small4/shop/goods/kanjia/help?token=c005d7cf-38b4-4bc3-a9c1-cf30852de7bb&kjid=640&joinerUser=421657').then(res => {
+        Axios.post(`https://api.it120.cc/small4/shop/goods/kanjia/help?token=${token}&kjid=${kanJiaId}&joinerUser=${this.uid}`).then(res => {
           console.log(res)
           let { code } = res.data
+          let { dateAdd } = res.data.data
+          if (dateAdd) {
+            this.open4()
+            return
+          }
           if (!code) {
             this.open5()
             setTimeout(() => {
