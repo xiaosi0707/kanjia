@@ -60,13 +60,13 @@ export default {
   },
   created () {
     console.log(this.$route.query)
-    let token = window.localStorage.getItem('token')
+    // let token = window.localStorage.getItem('token')
     let { floorPrice, kanJiaId, name, pic, originalPrice } = this.$route.query
     this.floorPrice = floorPrice
     this.name = name
     this.pic = pic
     this.originalPrice = originalPrice
-    Axios.post(`https://api.it120.cc/small4/shop/goods/kanjia/join?kjid=${kanJiaId}&token=${token}`).then(res => {
+    Axios.post(`https://api.it120.cc/small4/shop/goods/kanjia/join?kjid=${kanJiaId}&token=c005d7cf-38b4-4bc3-a9c1-cf30852de7bb`).then(res => {
       console.log(res)
       let { code } = res.data
       let { helpNumber, curPrice, uid } = res.data.data
@@ -100,6 +100,7 @@ export default {
         type: 'success'
       })
     },
+    // 自己砍
     kanOwn () {
       let token = window.localStorage.getItem('token')
       let { kanJiaId } = this.$route.query
@@ -121,6 +122,9 @@ export default {
         })
       }
     }
+    // friendKan () {
+    //
+    // }
   }
 }
 </script>

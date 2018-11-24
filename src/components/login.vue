@@ -39,7 +39,7 @@ export default {
         this.open6()
         setTimeout(() => {
           this.$router.push({
-            path: 'kanjia'
+            path: 'detail'
           })
         }, 2000)
       }, 2000)
