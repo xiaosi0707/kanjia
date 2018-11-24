@@ -10,7 +10,7 @@ Vue.use(Router)
 export default new Router({
   routes: [
     {
-      path: '/detail',
+      path: '/detail/:id?',
       name: 'Detail',
       component: Detail
     },

@@ -1,8 +1,8 @@
 <template>
-  <div>
+  <div v-if="detailData.basicInfo.name">
     <div class="block">
       <el-carousel>
-        <el-carousel-item v-for="item in detailData.pics" :key="item">
+        <el-carousel-item v-for="(item, index) in detailData.pics" :key="index">
           <h3><img :src=" item.pic " alt=""></h3>
         </el-carousel-item>
       </el-carousel>
@@ -19,13 +19,13 @@
         <span>库存 {{ detailData.basicInfo.stores }}</span>
       </div>
     </el-card>
-    <el-tabs v-model="activeName" @tab-click="handleClick">
+    <el-tabs v-model="activeName">
       <el-tab-pane label="商品介绍" name="first" v-html="detailData.content"></el-tab-pane>
       <el-tab-pane label="商品评价" name="second">暂无评价</el-tab-pane>
     </el-tabs>
     <el-row>
       <el-button type="danger">
-        <router-link :to="{ path: '/kanjia', query: { originPrice: detailData.basicInfo.originalPrice, floorPrice: detailData.basicInfo.kanjiaPrice }}" tag="span">立即发起砍价</router-link>
+        <router-link :to="{ path: '/kanjia', query: { name: detailData.basicInfo.name, floorPrice: detailData.basicInfo.kanjiaPrice, kanJiaInfo: kanJiaInfo, pic: detailData.basicInfo.pic }}" tag="span">立即发起砍价</router-link>
       </el-button>
     </el-row>
   </div>
@@ -37,7 +37,8 @@ export default {
   data () {
     return {
       detailData: {},
-      activeName: 'first'
+      activeName: 'first',
+      kanJiaInfo: ''
     }
   },
   beforeRouteLeave (to, from, next) {
@@ -55,8 +56,8 @@ export default {
     }
   },
   created () {
-    Axios.post(`https://api.it120.cc/small4/shop/goods/detail?id=99766`).then(res => {
-      console.log(res)
+    let { id } = this.$route.query
+    Axios.post(`https://api.it120.cc/small4/shop/goods/detail?id=${id}`).then(res => {
       let { basicInfo, category, content, pics, properties } = res.data.data
       this.detailData = {
         basicInfo,
@@ -65,6 +66,15 @@ export default {
         pics,
         properties
       }
+    })
+    // 根据当前商品的goodsId找到当前商品的kanjiaId，然后传递给砍价详情页
+    Axios.get('https://api.it120.cc/small4/shop/goods/kanjia/list').then(res => {
+      let { result } = res.data.data
+      this.kanJiaInfo = result.filter(item => {
+        if (item.goodsId === Number(id)) {
+          return item
+        }
+      })[0]
     })
   }
 }

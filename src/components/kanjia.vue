@@ -8,20 +8,20 @@
       </div>
         <el-col >
           <el-card :body-style="{ padding: '0px' }">
-            <img src="https://i3.meishichina.com/attachment/recipe/2018/11/23/2018112315429398985579702111.jpg?x-oss-process=style/c320" class="image">
+            <img :src=" pic " class="image">
             <div style="padding: 14px;">
-              <span>好吃的汉堡</span>
+              <span>{{ name }}</span>
               <div class="bottom clearfix">
                 <p>
                   <i>底价 ¥{{ floorPrice }}</i>
-                  <u>原价 ¥{{ originPrice }}</u>
+                  <u>原价 ¥{{ originalPrice }}</u>
                 </p>
               </div>
             </div>
           </el-card>
         </el-col>
       <div class="price">
-        当前价 {{ curPrice }}元，已砍{{ originPrice - curPrice }}元
+        当前价 {{ curPrice }}元，已砍{{ originalPrice - curPrice }}元
       </div>
       <div class="kanjia-btn">
         <el-button class="kan-btn-active" @click="kanOwn">砍一刀</el-button>
@@ -50,16 +50,22 @@ export default {
     return {
       currentDate: new Date(),
       helpNumber: 0,
-      originPrice: '',
+      originalPrice: '',
       floorPrice: '',
-      curPrice: ''
+      curPrice: '',
+      name: '',
+      pic: ''
     }
   },
   created () {
-    let { originPrice, floorPrice } = this.$route.query
-    this.originPrice = originPrice
+    let { floorPrice, kanJiaInfo, name, pic } = this.$route.query
     this.floorPrice = floorPrice
-    Axios.post('https://api.it120.cc/small4/shop/goods/kanjia/join?kjid=640&token=d1880bae-39e4-4124-9a5c-8ef2bb0f2110').then(res => {
+    this.name = name
+    this.pic = pic
+    let { id, originalPrice } = kanJiaInfo
+    this.originalPrice = originalPrice
+    console.log(kanJiaInfo)
+    Axios.post(`https://api.it120.cc/small4/shop/goods/kanjia/join?kjid=${id}&token=d1880bae-39e4-4124-9a5c-8ef2bb0f2110`).then(res => {
       console.log(res)
       let { code } = res.data
       let { helpNumber, curPrice } = res.data.data

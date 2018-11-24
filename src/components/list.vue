@@ -2,6 +2,7 @@
   <div class="list">
   <el-row>
     <el-col v-for="(item, index) in kanjiaList" :key="index">
+      <router-link :to="{path: '/detail', query: { id: item.id }}" tag="div">
       <el-card :body-style="{ padding: '0px' }">
         <img :src="item.pic" class="image">
         <div style="padding: 14px;">
@@ -12,6 +13,7 @@
           </div>
         </div>
       </el-card>
+      </router-link>
     </el-col>
   </el-row>
   </div>
