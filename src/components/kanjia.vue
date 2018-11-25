@@ -82,6 +82,7 @@ export default {
   methods: {
     // 分享到朋友圈和好友
     share () {
+      let myToken = window.localStorage.getItem('myToken')
       let { floorPrice, kanJiaId, name, pic } = this.$route.query
       let url = location.href.split('#')[0]
       $.ajax({
@@ -108,7 +109,7 @@ export default {
             wx.onMenuShareTimeline({
               title: `一款"${name}"，千军万马来相见，帮我砍“死”他，O(∩_∩)O哈哈~`, // 商品标题
               desc: '不好好写代码，只有帮别人砍价的份儿...', // 商品描述
-              link: `http://www.wyunfei.com/students/wangyunfei/index.html#/friend?kanJiaId=${kanJiaId}&floorPrice=${floorPrice}`, // 好友从朋友圈点进去的页面
+              link: `http://www.wyunfei.com/students/wangyunfei/index.html#/friend?kanJiaId=${kanJiaId}&floorPrice=${floorPrice}&myToken=${myToken}`, // 好友从朋友圈点进去的页面
               imgUrl: `${pic}`, // 商品图片
               success: function (res) {
                 alert('分享成功')
@@ -118,7 +119,7 @@ export default {
             wx.onMenuShareAppMessage({
               title: `hi，亲爱的小伙伴，还记得我吗？"${name}"等你O(∩_∩)O哈哈~`,
               desc: '不好好写代码，只有帮别人砍价的份儿...',
-              link: `http://www.wyunfei.com/students/wangyunfei/index.html#/friend?kanJiaId=${kanJiaId}&floorPrice=${floorPrice}`,
+              link: `http://www.wyunfei.com/students/wangyunfei/index.html#/friend?kanJiaId=${kanJiaId}&floorPrice=${floorPrice}&myToken=${myToken}`,
               imgUrl: `${pic}`, // 商品图片
               success: function (res) {
                 alert('分享成功')

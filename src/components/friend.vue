@@ -24,7 +24,7 @@
         当前价 {{ curPrice }}元，已砍{{ basicInfo.originalPrice - curPrice }}元
       </div>
       <div class="kanjia-btn">
-        <el-button class="kan-btn-active" @click="friendKan">帮好友砍一刀</el-button>
+        <el-button class="kan-btn-active" @click="friendKan(uid)">帮好友砍一刀{{ uid }}</el-button>
         <el-button class="kan-btn-request">我要发起砍价</el-button>
       </div>
     </div>
@@ -60,8 +60,8 @@ export default {
   },
   // friend
   created () {
-    let myToken = window.localStorage.getItem('myToken')
-    let { kanJiaId, floorPrice } = this.$route.query
+    // let myToken = window.localStorage.getItem('myToken')
+    let { kanJiaId, floorPrice, myToken } = this.$route.query
     this.floorPrice = floorPrice
     Axios.post(`https://api.it120.cc/small4/shop/goods/kanjia/join?kjid=${kanJiaId}&token=${myToken}`).then(res => {
       console.log(res)
@@ -106,17 +106,18 @@ export default {
       })
     },
     // 好友砍
-    friendKan () {
+    friendKan (uid) {
       let friendToken = window.localStorage.getItem('friendToken')
-      let { kanJiaId } = this.$route.query
+      let { kanJiaId, floorPrice, myToken } = this.$route.query
       if (!friendToken) {
         this.$router.push({
           path: 'login',
-          query: { is: 'friend' }
+          query: { kanJiaId: kanJiaId, floorPrice: floorPrice, myToken: myToken }
         })
         return false
       }
-      Axios.post(`https://api.it120.cc/small4/shop/goods/kanjia/help?token=${friendToken}&kjid=${kanJiaId}&joinerUser=${this.uid}`).then(res => {
+      console.log(uid)
+      Axios.post(`https://api.it120.cc/small4/shop/goods/kanjia/help?token=${friendToken}&kjid=${kanJiaId}&joinerUser=${uid}`).then(res => {
         console.log(res)
         let { code } = res.data
         let { dateAdd } = res.data.data

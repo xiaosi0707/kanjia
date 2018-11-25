@@ -33,10 +33,11 @@ export default {
     },
     login () {
       this.isLoading = true
-
       // 身份校验（是我？还是friend？）
-      let { floorPrice, kanJiaId, name, pic, originalPrice } = this.$route.query
-      if (name) {
+      let { floorPrice, kanJiaId, myToken } = this.$route.query
+      console.log(myToken)
+      if (kanJiaId) {
+        alert('friend')
         window.localStorage.setItem('friendToken', this.token)
         setTimeout(() => {
           // if (!window.localStorage.getItem('myToken') || !window.localStorage.getItem('friendToken')) return
@@ -47,14 +48,13 @@ export default {
               query: {
                 floorPrice,
                 kanJiaId,
-                name,
-                pic,
-                originalPrice
+                myToken
               }
             })
           }, 2000)
         }, 2000)
       } else {
+        alert('my')
         window.localStorage.setItem('myToken', this.token)
         setTimeout(() => {
           // if (!window.localStorage.getItem('myToken') || !window.localStorage.getItem('friendToken')) return
