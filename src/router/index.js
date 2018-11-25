@@ -4,6 +4,7 @@ import Detail from '@/components/detail'
 import Kanjia from '@/components/kanjia'
 import Login from '@/components/login'
 import List from '@/components/list'
+import Friend from '@/components/friend'
 
 Vue.use(Router)
 
@@ -20,9 +21,14 @@ export default new Router({
       component: Kanjia
     },
     {
-      path: '/login',
+      path: '/login/:whoIs?',
       name: 'Login',
       component: Login
+    },
+    {
+      path: '/friend',
+      name: 'Friend',
+      component: Friend
     },
     {
       path: '/',

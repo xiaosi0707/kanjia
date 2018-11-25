@@ -43,8 +43,8 @@ export default {
     }
   },
   beforeRouteLeave (to, from, next) {
-    let token = window.localStorage.getItem('token')
-    if (!token) {
+    let myToken = window.localStorage.getItem('myToken')
+    if (!myToken) {
       next()
       this.$router.push({
         path: 'login'

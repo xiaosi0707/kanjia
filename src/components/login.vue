@@ -33,13 +33,20 @@ export default {
     },
     login () {
       this.isLoading = true
-      window.localStorage.setItem('token', this.token)
+
+      // 身份校验（是我？还是friend？）
+      let { is } = this.$route.query
+      if (is) {
+        window.localStorage.setItem('friendToken', this.token)
+      } else {
+        window.localStorage.setItem('myToken', this.token)
+      }
       setTimeout(() => {
-        if (!window.localStorage.getItem('token')) return
+        // if (!window.localStorage.getItem('myToken') || !window.localStorage.getItem('friendToken')) return
         this.open6()
         setTimeout(() => {
           this.$router.push({
-            path: 'detail'
+            path: '/'
           })
         }, 2000)
       }, 2000)

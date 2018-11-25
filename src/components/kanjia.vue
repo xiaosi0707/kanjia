@@ -25,7 +25,7 @@
       </div>
       <div class="kanjia-btn">
         <el-button class="kan-btn-active" @click="kanOwn">自己先砍一刀</el-button>
-        <el-button class="kan-btn-request">邀请好友砍价</el-button>
+        <el-button class="kan-btn-request" @click="friendKan">好友砍价</el-button>
       </div>
     </div>
   <div class="friend-list">
@@ -59,14 +59,13 @@ export default {
     }
   },
   created () {
-    console.log(this.$route.query)
-    // let token = window.localStorage.getItem('token')
+    let myToken = window.localStorage.getItem('myToken')
     let { floorPrice, kanJiaId, name, pic, originalPrice } = this.$route.query
     this.floorPrice = floorPrice
     this.name = name
     this.pic = pic
     this.originalPrice = originalPrice
-    Axios.post(`https://api.it120.cc/small4/shop/goods/kanjia/join?kjid=${kanJiaId}&token=c005d7cf-38b4-4bc3-a9c1-cf30852de7bb`).then(res => {
+    Axios.post(`https://api.it120.cc/small4/shop/goods/kanjia/join?kjid=${kanJiaId}&token=${myToken}`).then(res => {
       console.log(res)
       let { code } = res.data
       let { helpNumber, curPrice, uid } = res.data.data
@@ -77,8 +76,55 @@ export default {
         this.open6()
       }
     })
+    // this.share()
   },
   methods: {
+    // share () {
+    //   let url = location.href.split('#')[0]
+    //   Axios({
+    //     url: 'http://www.wyunfei.com/tp/WeChat/',
+    //     type: 'get',
+    //     data: {
+    //       url: url
+    //     },
+    //     success (res) {
+    //       wx.config({
+    //         debug: true,
+    //         appId: res.appId,
+    //         timestamp: res.timestamp,
+    //         signature: res.sign,
+    //         nonceStr: res.nonceStr,
+    //         jsApiList: [
+    //           // 所有要调用的 API 都要加到这个列表中
+    //           'onMenuShareTimeline', // 分享到朋友圈接口
+    //           'onMenuShareAppMessage'
+    //         ]
+    //       })
+    //       wx.ready(function () {
+    //         // 分享到朋友圈
+    //         wx.onMenuShareTimeline({
+    //           title: '今天是个好天气，大家都在努力学习~朋友圈分享测试', // 商品标题
+    //           desc: '测试分享', // 商品描述
+    //           link: 'http://www.wyunfei.com/pay1.html', // 好友从朋友圈点进去的页面
+    //           imgUrl: 'http://www.wyunfei.com/1.png', // 商品图片
+    //           success: function (res) {
+    //             alert('分享成功')
+    //           }
+    //         })
+    //         // 分享给好友
+    //         wx.onMenuShareAppMessage({
+    //           title: '今天是个好天气，大家都在努力学习~分享给好友测试',
+    //           desc: '测试分享',
+    //           link: 'http://www.wyunfei.com/pay1.html',
+    //           imgUrl: 'http://www.wyunfei.com/1.png',
+    //           success: function (res) {
+    //             alert('分享成功')
+    //           }
+    //         })
+    //       })
+    //     }
+    //   })
+    // },
     open6 () {
       this.$message({
         showClose: true,
@@ -102,10 +148,10 @@ export default {
     },
     // 自己砍
     kanOwn () {
-      let token = window.localStorage.getItem('token')
+      let myToken = window.localStorage.getItem('myToken')
       let { kanJiaId } = this.$route.query
-      if (token) {
-        Axios.post(`https://api.it120.cc/small4/shop/goods/kanjia/help?token=${token}&kjid=${kanJiaId}&joinerUser=${this.uid}`).then(res => {
+      if (myToken) {
+        Axios.post(`https://api.it120.cc/small4/shop/goods/kanjia/help?token=${myToken}&kjid=${kanJiaId}&joinerUser=${this.uid}`).then(res => {
           console.log(res)
           let { code } = res.data
           let { dateAdd } = res.data.data
@@ -121,10 +167,33 @@ export default {
           }
         })
       }
+    },
+    friendKan () {
+      let friendToken = window.localStorage.getItem('friendToken')
+      let { kanJiaId } = this.$route.query
+      if (!friendToken) {
+        this.$router.push({
+          path: 'login',
+          query: { is: 'friend' }
+        })
+        return false
+      }
+      Axios.post(`https://api.it120.cc/small4/shop/goods/kanjia/help?token=${friendToken}&kjid=${kanJiaId}&joinerUser=${this.uid}`).then(res => {
+        console.log(res)
+        let { code } = res.data
+        let { dateAdd } = res.data.data
+        if (dateAdd) {
+          this.open4()
+          return
+        }
+        if (!code) {
+          this.open5()
+          setTimeout(() => {
+            // window.location.reload()
+          }, 2000)
+        }
+      })
     }
-    // friendKan () {
-    //
-    // }
   }
 }
 </script>
