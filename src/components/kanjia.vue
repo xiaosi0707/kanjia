@@ -162,7 +162,7 @@ export default {
           if (!code) {
             this.open5()
             setTimeout(() => {
-              // window.location.reload()
+              window.location.reload()
             }, 2000)
           }
         })
@@ -189,7 +189,7 @@ export default {
         if (!code) {
           this.open5()
           setTimeout(() => {
-            // window.location.reload()
+            window.location.reload()
           }, 2000)
         }
       })
