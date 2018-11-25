@@ -45,6 +45,7 @@
 
 <script>
 import Axios from 'axios'
+import $ from 'jquery'
 export default {
   data () {
     return {
@@ -76,55 +77,57 @@ export default {
         this.open6()
       }
     })
-    // this.share()
+    this.share()
   },
   methods: {
-    // share () {
-    //   let url = location.href.split('#')[0]
-    //   Axios({
-    //     url: 'http://www.wyunfei.com/tp/WeChat/',
-    //     type: 'get',
-    //     data: {
-    //       url: url
-    //     },
-    //     success (res) {
-    //       wx.config({
-    //         debug: true,
-    //         appId: res.appId,
-    //         timestamp: res.timestamp,
-    //         signature: res.sign,
-    //         nonceStr: res.nonceStr,
-    //         jsApiList: [
-    //           // 所有要调用的 API 都要加到这个列表中
-    //           'onMenuShareTimeline', // 分享到朋友圈接口
-    //           'onMenuShareAppMessage'
-    //         ]
-    //       })
-    //       wx.ready(function () {
-    //         // 分享到朋友圈
-    //         wx.onMenuShareTimeline({
-    //           title: '今天是个好天气，大家都在努力学习~朋友圈分享测试', // 商品标题
-    //           desc: '测试分享', // 商品描述
-    //           link: 'http://www.wyunfei.com/pay1.html', // 好友从朋友圈点进去的页面
-    //           imgUrl: 'http://www.wyunfei.com/1.png', // 商品图片
-    //           success: function (res) {
-    //             alert('分享成功')
-    //           }
-    //         })
-    //         // 分享给好友
-    //         wx.onMenuShareAppMessage({
-    //           title: '今天是个好天气，大家都在努力学习~分享给好友测试',
-    //           desc: '测试分享',
-    //           link: 'http://www.wyunfei.com/pay1.html',
-    //           imgUrl: 'http://www.wyunfei.com/1.png',
-    //           success: function (res) {
-    //             alert('分享成功')
-    //           }
-    //         })
-    //       })
-    //     }
-    //   })
-    // },
+    // 分享到朋友圈和好友
+    share () {
+      let { name, pic } = this.$route.query
+      let url = location.href.split('#')[0]
+      $.ajax({
+        url: 'http://www.wyunfei.com/tp/WeChat/',
+        type: 'get',
+        data: {
+          url: url
+        },
+        success (res) {
+          wx.config({
+            debug: true,
+            appId: res.appId,
+            timestamp: res.timestamp,
+            signature: res.sign,
+            nonceStr: res.nonceStr,
+            jsApiList: [
+              // 所有要调用的 API 都要加到这个列表中
+              'onMenuShareTimeline', // 分享到朋友圈接口
+              'onMenuShareAppMessage'
+            ]
+          })
+          wx.ready(function () {
+            // 分享到朋友圈
+            wx.onMenuShareTimeline({
+              title: `一款"${name}"，千军万马来相见，帮我砍“死”他，O(∩_∩)O哈哈~`, // 商品标题
+              desc: '测试分享', // 商品描述
+              link: 'http://www.wyunfei.com/pay1.html', // 好友从朋友圈点进去的页面
+              imgUrl: `${pic}`, // 商品图片
+              success: function (res) {
+                alert('分享成功')
+              }
+            })
+            // 分享给好友
+            wx.onMenuShareAppMessage({
+              title: `hi，亲爱的小伙伴，还记得我吗？"${name}"，我等你O(∩_∩)O哈哈~`,
+              desc: '测试分享',
+              link: 'http://www.wyunfei.com/pay1.html',
+              imgUrl: 'http://www.wyunfei.com/1.png',
+              success: function (res) {
+                alert('分享成功')
+              }
+            })
+          })
+        }
+      })
+    },
     open6 () {
       this.$message({
         showClose: true,
