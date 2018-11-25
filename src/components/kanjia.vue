@@ -76,13 +76,13 @@ export default {
       if (!code && !res.data.data.statusStr) {
         this.open6()
       }
+      this.share()
     })
-    this.share()
   },
   methods: {
     // 分享到朋友圈和好友
     share () {
-      let { name, pic } = this.$route.query
+      let { floorPrice, kanJiaId, name, pic } = this.$route.query
       let url = location.href.split('#')[0]
       $.ajax({
         url: 'http://www.wyunfei.com/tp/WeChat/',
@@ -107,8 +107,8 @@ export default {
             // 分享到朋友圈
             wx.onMenuShareTimeline({
               title: `一款"${name}"，千军万马来相见，帮我砍“死”他，O(∩_∩)O哈哈~`, // 商品标题
-              desc: '测试分享', // 商品描述
-              link: 'http://www.wyunfei.com/pay1.html', // 好友从朋友圈点进去的页面
+              desc: '不好好写代码，只有帮别人砍价的份儿...', // 商品描述
+              link: `http://www.wyunfei.com/students/wangyunfei/index.html#/friend?kanJiaId=${kanJiaId}&floorPrice=${floorPrice}`, // 好友从朋友圈点进去的页面
               imgUrl: `${pic}`, // 商品图片
               success: function (res) {
                 alert('分享成功')
@@ -116,10 +116,10 @@ export default {
             })
             // 分享给好友
             wx.onMenuShareAppMessage({
-              title: `hi，亲爱的小伙伴，还记得我吗？"${name}"，我等你O(∩_∩)O哈哈~`,
-              desc: '测试分享',
-              link: 'http://www.wyunfei.com/pay1.html',
-              imgUrl: 'http://www.wyunfei.com/1.png',
+              title: `hi，亲爱的小伙伴，还记得我吗？"${name}"等你O(∩_∩)O哈哈~`,
+              desc: '不好好写代码，只有帮别人砍价的份儿...',
+              link: `http://www.wyunfei.com/students/wangyunfei/index.html#/friend?kanJiaId=${kanJiaId}&floorPrice=${floorPrice}`,
+              imgUrl: `${pic}`, // 商品图片
               success: function (res) {
                 alert('分享成功')
               }
@@ -170,33 +170,33 @@ export default {
           }
         })
       }
-    },
-    friendKan () {
-      let friendToken = window.localStorage.getItem('friendToken')
-      let { kanJiaId } = this.$route.query
-      if (!friendToken) {
-        this.$router.push({
-          path: 'login',
-          query: { is: 'friend' }
-        })
-        return false
-      }
-      Axios.post(`https://api.it120.cc/small4/shop/goods/kanjia/help?token=${friendToken}&kjid=${kanJiaId}&joinerUser=${this.uid}`).then(res => {
-        console.log(res)
-        let { code } = res.data
-        let { dateAdd } = res.data.data
-        if (dateAdd) {
-          this.open4()
-          return
-        }
-        if (!code) {
-          this.open5()
-          setTimeout(() => {
-            window.location.reload()
-          }, 2000)
-        }
-      })
     }
+    // friendKan () {
+    //   let friendToken = window.localStorage.getItem('friendToken')
+    //   let { kanJiaId } = this.$route.query
+    //   if (!friendToken) {
+    //     this.$router.push({
+    //       path: 'login',
+    //       query: { is: 'friend' }
+    //     })
+    //     return false
+    //   }
+    //   Axios.post(`https://api.it120.cc/small4/shop/goods/kanjia/help?token=${friendToken}&kjid=${kanJiaId}&joinerUser=${this.uid}`).then(res => {
+    //     console.log(res)
+    //     let { code } = res.data
+    //     let { dateAdd } = res.data.data
+    //     if (dateAdd) {
+    //       this.open4()
+    //       return
+    //     }
+    //     if (!code) {
+    //       this.open5()
+    //       setTimeout(() => {
+    //         window.location.reload()
+    //       }, 2000)
+    //     }
+    //   })
+    // }
   }
 }
 </script>

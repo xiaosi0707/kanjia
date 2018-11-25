@@ -8,23 +8,23 @@
       </div>
         <el-col >
           <el-card :body-style="{ padding: '0px' }">
-            <img :src=" pic " class="image">
+            <img :src=" basicInfo.pic " class="image">
             <div style="padding: 14px;">
-              <span>{{ name }}</span>
+              <span>{{ basicInfo.name }}</span>
               <div class="bottom clearfix">
                 <p>
                   <i>底价 ¥{{ floorPrice }}</i>
-                  <u>原价 ¥{{ originalPrice }}</u>
+                  <u>原价 ¥{{ basicInfo.originalPrice }}</u>
                 </p>
               </div>
             </div>
           </el-card>
         </el-col>
       <div class="price">
-        当前价 {{ curPrice }}元，已砍{{ originalPrice - curPrice }}元
+        当前价 {{ curPrice }}元，已砍{{ basicInfo.originalPrice - curPrice }}元
       </div>
       <div class="kanjia-btn">
-        <el-button class="kan-btn-active" @click="kanOwn">帮好友砍一刀</el-button>
+        <el-button class="kan-btn-active" @click="friendKan">帮好友砍一刀</el-button>
         <el-button class="kan-btn-request">我要发起砍价</el-button>
       </div>
     </div>
@@ -50,31 +50,36 @@ export default {
     return {
       currentDate: new Date(),
       helpNumber: 0,
-      originalPrice: '',
       floorPrice: '',
       curPrice: '',
       name: '',
       pic: '',
-      uid: ''
+      uid: '',
+      basicInfo: {}
     }
   },
+  // friend
   created () {
-    console.log(this.$route.query)
-    // let token = window.localStorage.getItem('token')
-    let { floorPrice, kanJiaId, name, pic, originalPrice } = this.$route.query
+    let myToken = window.localStorage.getItem('myToken')
+    let { kanJiaId, floorPrice } = this.$route.query
     this.floorPrice = floorPrice
-    this.name = name
-    this.pic = pic
-    this.originalPrice = originalPrice
-    Axios.post(`https://api.it120.cc/small4/shop/goods/kanjia/join?kjid=${kanJiaId}&token=c005d7cf-38b4-4bc3-a9c1-cf30852de7bb`).then(res => {
+    Axios.post(`https://api.it120.cc/small4/shop/goods/kanjia/join?kjid=${kanJiaId}&token=${myToken}`).then(res => {
       console.log(res)
       let { code } = res.data
-      let { helpNumber, curPrice, uid } = res.data.data
+      let { helpNumber, curPrice, uid, goodsId } = res.data.data
       this.helpNumber = helpNumber
       this.curPrice = curPrice
       this.uid = uid
       if (!code && !res.data.data.statusStr) {
         this.open6()
+      }
+      if (goodsId) {
+        Axios.post(`https://api.it120.cc/small4/shop/goods/detail?id=${goodsId}`).then(res => {
+          console.log(res)
+          let { basicInfo } = res.data.data
+          this.basicInfo = basicInfo
+          console.log(this.basicInfo.originalPrice)
+        })
       }
     })
   },
@@ -100,31 +105,33 @@ export default {
         type: 'success'
       })
     },
-    // 自己砍
-    kanOwn () {
-      let token = window.localStorage.getItem('token')
+    // 好友砍
+    friendKan () {
+      let friendToken = window.localStorage.getItem('friendToken')
       let { kanJiaId } = this.$route.query
-      if (token) {
-        Axios.post(`https://api.it120.cc/small4/shop/goods/kanjia/help?token=${token}&kjid=${kanJiaId}&joinerUser=${this.uid}`).then(res => {
-          console.log(res)
-          let { code } = res.data
-          let { dateAdd } = res.data.data
-          if (dateAdd) {
-            this.open4()
-            return
-          }
-          if (!code) {
-            this.open5()
-            setTimeout(() => {
-              // window.location.reload()
-            }, 2000)
-          }
+      if (!friendToken) {
+        this.$router.push({
+          path: 'login',
+          query: { is: 'friend' }
         })
+        return false
       }
+      Axios.post(`https://api.it120.cc/small4/shop/goods/kanjia/help?token=${friendToken}&kjid=${kanJiaId}&joinerUser=${this.uid}`).then(res => {
+        console.log(res)
+        let { code } = res.data
+        let { dateAdd } = res.data.data
+        if (dateAdd) {
+          this.open4()
+          return
+        }
+        if (!code) {
+          this.open5()
+          setTimeout(() => {
+            window.location.reload()
+          }, 2000)
+        }
+      })
     }
-    // friendKan () {
-    //
-    // }
   }
 }
 </script>

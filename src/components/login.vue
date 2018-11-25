@@ -35,21 +35,37 @@ export default {
       this.isLoading = true
 
       // 身份校验（是我？还是friend？）
-      let { is } = this.$route.query
-      if (is) {
+      let { floorPrice, kanJiaId, name, pic, originalPrice } = this.$route.query
+      if (name) {
         window.localStorage.setItem('friendToken', this.token)
+        setTimeout(() => {
+          // if (!window.localStorage.getItem('myToken') || !window.localStorage.getItem('friendToken')) return
+          this.open6()
+          setTimeout(() => {
+            this.$router.push({
+              path: 'friend',
+              query: {
+                floorPrice,
+                kanJiaId,
+                name,
+                pic,
+                originalPrice
+              }
+            })
+          }, 2000)
+        }, 2000)
       } else {
         window.localStorage.setItem('myToken', this.token)
-      }
-      setTimeout(() => {
-        // if (!window.localStorage.getItem('myToken') || !window.localStorage.getItem('friendToken')) return
-        this.open6()
         setTimeout(() => {
-          this.$router.push({
-            path: '/'
-          })
+          // if (!window.localStorage.getItem('myToken') || !window.localStorage.getItem('friendToken')) return
+          this.open6()
+          setTimeout(() => {
+            this.$router.push({
+              path: '/'
+            })
+          }, 2000)
         }, 2000)
-      }, 2000)
+      }
     }
   }
 }
